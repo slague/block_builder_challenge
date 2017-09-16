@@ -8,9 +8,18 @@ The BlockBuilder is a command-line controller program for a robotic arm that tak
 
  * `size [n]`
    Adjusts the number of slots, resizing if necessary. When the arm is re-sized, blocks remain in place. However, if an arm is resized to a smaller size, blocks in the truncated space(s) are lost.
+   Example:
+   `size 3` builds an arm with two slots
+   `1:
+    2:
+    3:`
+
 
  * `add [slot]`
    Adds a block to the specified slot. Blocks are added one at a time. Blocks can only be added to slots that exist. If the spot does not exist, the user will be asked to provide a different slot.
+   Example:
+   `size 2` adds a block (X) to the second slot.
+   
 
  * `rm [slot]`
    Removes a block from the slot. Blocks are removed one at a time. Blocks can only be removed from slots that currently have a block(s).
