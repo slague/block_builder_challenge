@@ -14,7 +14,10 @@ class BlockBuilderTest < Minitest::Test
 
 
   def test_size
-
+    blocker = BlockBuilder.new(3)
+    blocker.size(4)
+    assert_equal 4, blocker.arm.length
+    assert_equal ["1:", "2:", "3:", "4:"], blocker.arm
   end
 
   # def test_add
