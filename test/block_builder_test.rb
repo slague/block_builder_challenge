@@ -37,14 +37,31 @@ class BlockBuilderTest < Minitest::Test
     blocker.rm(2)
     assert_equal ["1:", "2:", "3:"], blocker.arm
   end
-  #
-  # def test_replay
-  #
-  # end
-  #
-  # def test_undo
 
-  # end
+  def test_mv
+    blocker = BlockBuilder.new(3)
+    blocker.add(2)
+    blocker.mv(2, 1)
+    assert_equal ["1: X", "2:", "3:"], blocker.arm
+  end
+
+
+  def test_replay
+    blocker = BlockBuilder.new(3)
+    blocker.add(2)
+    blocker.add(2)
+    blocker.replay(2)
+    assert_equal ["1:", "2: X X X X", "3:"], blocker.arm
+  end
+
+  def test_undo
+    blocker = BlockBuilder.new(3)
+    blocker.add(2)
+    blocker.mv(2, 1)
+    blocker.add(3)
+    blocker.undo(2)
+    assert_equal ["1:", "2: X", "3:"], blocker.arm
+  end
 end
 # Design a command-line controller program for a robotic arm that takes commands that move blocks stacked in a series of slots. After each command, output the state of the slots, which each line of output corresponding to a slot and each X corresponding to a block.
 #
