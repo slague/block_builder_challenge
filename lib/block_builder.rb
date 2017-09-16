@@ -82,7 +82,7 @@ class BlockBuilder
 
   def replay(input)
   #Note: I chose to only count successfully executed commands. For example if a user tries to move a block from a location that does not have a block. This command was not successful and so not counted.
-  #I am also assuming the replays occur in order starting with the most recently exectued and working backwards.
+  #I am also assuming the replays occur in order starting with the most recently executed and working backwards.
     replays = commands.reverse.take(input)
     puts "The last #{input} commands were:"
     replays.each { |replay| puts "#{replay}"}
@@ -90,7 +90,7 @@ class BlockBuilder
     sleep(1)
     replays.each do |replay|
       sleep(1)
-      exectue_commands(replay)
+      execute_commands(replay)
     end
     # Note: I am not adding "replay" to the commands array.  I have chosen to do this so that if a user selects replay and then replay again they do not get stuck in a loop.
   end
@@ -103,7 +103,7 @@ class BlockBuilder
     sleep(1)
     undos.each do |undo|
       case undo[0]
-        when "size" then resize(undo[2][-1].to_i)
+        when "size" then size(undo[2][-1].to_i)
         when "add" then rm(undo[1])
         when "mv" then mv(undo[2].to_i, undo[1])
         when "rm" then add(undo[1])
@@ -113,14 +113,14 @@ class BlockBuilder
     end
   end
 
-  def exectue_commands(arr)
+  def execute_commands(arr)
     case arr[0]
-    when "size" then resize(arr[1].to_i)
-    when "add" then add(arr[1].to_i)
-    when "mv" then mv(arr[1].to_i, arr[2].to_i)
-    when "rm" then rm(arr[1].to_i)
-    when "replay" then replay(arr[1].to_i)
-    when "undo" then undo(arr[1].to_i)
+      when "size" then size(arr[1].to_i)
+      when "add" then add(arr[1].to_i)
+      when "mv" then mv(arr[1].to_i, arr[2].to_i)
+      when "rm" then rm(arr[1].to_i)
+      when "replay" then replay(arr[1].to_i)
+      when "undo" then undo(arr[1].to_i)
       when "i" then instructions
       when "q" then puts "Program eneded."; exit
     end
@@ -140,18 +140,25 @@ class BlockBuilder
     input = gets.strip.split
     input[0] = input[0].downcase
     check_input(input)
-    exectue_commands(input)
+    execute_commands(input)
     run_program
   end
 
+  def self.start
+    puts "This is a controller program for a robotic arm that moves blocks stacked in a series of slots.\nTo begin, you will create your robotic arm. Enter a number to determine its size."
+    num = gets.chomp.to_i
+    if num == 0
+      puts "You must enter a number. Starting over."
+      sleep(1)
+      start
+    else
+      blocker = BlockBuilder.new(num)
+      blocker.display
+      blocker.instructions
+      blocker.run_program
+    end
+  end
 end
 
 # *------------------- *
-puts "This is a controller program for a robotic arm that moves blocks stacked in a series of slots.
-    \nTo begin, you will create your robotic arm. Enter a number to determine its size."
-
-num = gets.chomp.to_i
-blocker = BlockBuilder.new(num)
-blocker.display
-blocker.instructions
-blocker.run_program
+BlockBuilder.start
