@@ -10,7 +10,7 @@ The BlockBuilder is a command-line controller program for a robotic arm that tak
  * add [slot] - Adds a block to the specified slot. Blocks are added one at a time. Blocks can only be added to slots that exist. If the spot does not exist, the user will be asked to provide a different slot.
  * rm [slot] - Removes a block from the slot. Blocks are removed one at a time. Blocks can only be removed from slots that currently have a block(s).
  * mv [slot1] [slot2] - Moves a block from slot1 to slot2. Blocks are moved one at a time. Blocks cannot be moved to spaces that do not exist.
- * replay [n] - Replays the last n commands.
+ * replay [n] - Replays the last n commands. Only successfully executed commands will be replayed. For example, if a user tries to move a block from a location that does not have a block. This command was not successful and so not counted. Replays begin with the most recently executed command and work backwards.
  * undo [n] - Undo the last n commands.
  * i - Displays this list of instructions.
  * q - Ends the program.

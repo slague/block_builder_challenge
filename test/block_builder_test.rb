@@ -46,10 +46,14 @@ class BlockBuilderTest < Minitest::Test
   end
 
 
-  # def test_replay
-  #
-  # end
-  #
+  def test_replay
+    blocker = BlockBuilder.new(3)
+    blocker.add(2)
+    blocker.add(2)
+    blocker.replay(2)
+    assert_equal ["1:", "2: X X X X", "3:"], blocker.arm
+  end
+  
   # def test_undo
 
   # end
