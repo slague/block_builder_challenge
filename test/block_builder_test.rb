@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative '../lib/block_maker'
+require_relative '../lib/block_builder'
 require 'minitest/pride'
 
 
@@ -12,6 +12,31 @@ class BlockBuilderTest < Minitest::Test
     assert_equal ["1:", "2:", "3:"], blocker.arm
   end
 
+
+  def test_size
+
+  end
+
+  # def test_add
+  #
+  # end
+  #
+  # def test_mv
+  #
+  # end
+  #
+  # def test_rm
+  #
+  # end
+  #
+  # def test_replay
+  #
+  # end
+  #
+  # def test_undo
+
+  # end
+end
 # Design a command-line controller program for a robotic arm that takes commands that move blocks stacked in a series of slots. After each command, output the state of the slots, which each line of output corresponding to a slot and each X corresponding to a block.
 #
 # Commands:
