@@ -12,8 +12,11 @@ class BlockBuilder
   end
 
   def instructions
-# I am assuming a user will first input the command followed by a number (or in the case of mv two numbers) and press enter. For i and q, no numbers follow. There must be a space between the command and number.
-    puts "Now that you have built the robotic arm, you can use the following commands to add, change, and remove blocks:\n
+# I am assuming a user will first input the command followed by a number (or in the case of mv two numbers) and press enter.
+# For i and q, no numbers follow. 
+# There must be a space between the command and number.
+# The number may be within brackets or not.
+    puts "You can use the following commands to add, change, and remove blocks.\n
     size [n] - Adjusts the number of slots, resizing if necessary.
     add [slot] - Adds a block to the specified slot.
     mv [slot1] [slot2] - Moves a block from slot1 to slot2.
@@ -41,19 +44,20 @@ class BlockBuilder
   end
 
   def add(input)
-    if arm[input-1]
+    if arm[input-1] && input !=0
       arm[input-1] << " X"
       commands << ["add", input]
       display
     else
       puts "The length of your arm is #{arm.length}. Select a number 1-#{arm.length}."
       add(gets.strip.to_i)
+      # require "pry"; binding.pry
       # Note: The choice I made here is if a user inputs an unuseable number, the method is called again until a useable number is entered.
     end
   end
 
   def rm(input)
-    if arm[input-1].nil?
+    if arm[input-1].nil? || input == 0
       puts "The length of your arm is #{arm.length}. Select a number 1-#{arm.length}."
       rm(gets.strip.to_i)
       # Note: similar to the 'add' method, if a user inputs a space that does not exist, the method is called again until a space that exists on the arm is entered. If the space exists, but is empty see below.
@@ -127,11 +131,11 @@ class BlockBuilder
   end
 
   def check_input(input)
-    condition1 = input.length >= 2 && %w(size add mv rm replay undo).include?(input[0])
+    condition1 = input.length >= 2 && %w(size add mv rm replay undo).include?(input[0]) && input[1].to_i > 0
     condition2 = input.length == 1 && %w(i q).include?(input[0])
 
     unless condition1 || condition2
-      puts "Invalid entry. Try again. Press i to see the list of commands again."
+      puts "Invalid entry. Try again. Press i to see the list of commands."
       run_program
     end
   end
@@ -139,6 +143,8 @@ class BlockBuilder
   def run_program
     input = gets.strip.split
     input[0] = input[0].downcase
+    input[1] = input[1].delete('[]') if input[1]
+    # require "pry"; binding.pry
     check_input(input)
     execute_commands(input)
     run_program
@@ -148,7 +154,7 @@ class BlockBuilder
     puts "This is a controller program for a robotic arm that moves blocks stacked in a series of slots.\nTo begin, you will create your robotic arm. Enter a number to determine its size."
     num = gets.chomp.to_i
     if num == 0
-      puts "You must enter a number. Starting over."
+      puts "You must enter a number. Starting over..."
       sleep(1)
       start
     else
