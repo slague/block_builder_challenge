@@ -62,14 +62,26 @@ class BlockBuilder
     end
   end
 
+  def mv(input1, input2)
+    if arm[input1-1].nil? || arm[input2-1].nil?
+      puts "The arm is only #{arm.length} spaces long.\nYou cannot move blocks to spaces that do not exist. You can change the length of the arm with the command 'size [n]'."
+    elsif arm[input1-1].include?("X") && arm[input2-1]
+      arm[input1-1] = arm[input1-1].chomp(" X")
+      arm[input2-1] <<" X"
+      display
+    else
+      puts "There are no blocks in space '#{arm[input1-1]}' to move."
+    end
+  end
+
   def run_program
     input = gets.strip.split
     input[0] = input[0].downcase
     case input[0]
     when "size" then size(input[1].to_i)
     when "add" then add(input[1].to_i)
-      # when "mv" then mv
     when "rm" then rm(input[1].to_i)
+    when "mv" then mv(input[1].to_i, input[2].to_i)
       # when "replay" then replay
       # when "undo" then undo
     when "i" then instructions
@@ -81,11 +93,11 @@ class BlockBuilder
 end
 
 # *------------------- *
-# puts "This is a controller program for a robotic arm that moves blocks stacked in a series of slots.
-#     \nTo begin, you will create your robotic arm. Enter a number to determine its size."
-#
-# num = gets.chomp.to_i
-# blocker = BlockBuilder.new(num)
-# blocker.display
-# blocker.instructions
-# blocker.run_program
+puts "This is a controller program for a robotic arm that moves blocks stacked in a series of slots.
+    \nTo begin, you will create your robotic arm. Enter a number to determine its size."
+
+num = gets.chomp.to_i
+blocker = BlockBuilder.new(num)
+blocker.display
+blocker.instructions
+blocker.run_program

@@ -37,7 +37,15 @@ class BlockBuilderTest < Minitest::Test
     blocker.rm(2)
     assert_equal ["1:", "2:", "3:"], blocker.arm
   end
-  #
+
+  def test_mv
+    blocker = BlockBuilder.new(3)
+    blocker.add(2)
+    blocker.mv(2, 1)
+    assert_equal ["1: X", "2:", "3:"], blocker.arm
+  end
+
+
   # def test_replay
   #
   # end
