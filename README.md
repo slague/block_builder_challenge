@@ -4,6 +4,19 @@
 
 The BlockBuilder is a command-line controller program for a robotic arm that takes commands that move blocks (a block is represented by an X) stacked in a series of slots. After each command, the state of the slots is printed to the terminal.  
 
+### Setup
+1. Clone the repo
+2. Cd into the directory
+3. Run the program from the command line with `ruby lib/block_builder.rb`  
+4. Follow the instructions that appear on the screen to begin.
+5. Enter commands as you choose. See options below.
+
+### Testing
+
+This app uses minitest for testing. To run the tests:
+1. Comment out the line of code outside of the BlockBuilder class in lib/block_builder.rb `BlockBuilder.start`
+2. Run `ruby test/block_builder_test.rb`
+
 ### Commands:
 
 `size [n]`
@@ -132,15 +145,3 @@ becomes
 `i` Displays this list of instructions.
 
 `q` Ends the program.
-
-### Setup
-  1. Clone the repo
-  2. Cd into the directory
-  3. Run the program from the command line with `ruby lib/block_builder.rb`  
-
-
-### Testing
-
-This app uses minitest for testing. To run the tests:
-1. Comment out the line of code outside of the BlockBuilder class in lib/block_builder.rb `BlockBuilder.start`
-2. Run `ruby test/block_builder_test.rb`
