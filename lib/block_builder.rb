@@ -33,14 +33,12 @@ class BlockBuilder
       end
     end
     commands << ["size", input, "resized from #{current_arm}"]
-    display
   end
 
   def add(input)
     if arm[input-1] && input !=0
       arm[input-1] << " X"
       commands << ["add", input]
-      display
     else
       size_reminder(arm)
     end
@@ -58,14 +56,11 @@ class BlockBuilder
     if arm[input-1].nil? || input == 0
       size_reminder(arm)
       rm(gets.strip.delete('[]').to_i)
-      # Similar to the 'add' method, if a user inputs a space that does not exist, the method is called again until a space that exists on the arm is entered. **Only a number (with or without brackets) needs to be entered here! If the space exists, but is empty see below.
     elsif arm[input-1].include?("X")
       arm[input-1] = arm[input-1].chomp(" X")
       commands << ["rm", input]
-      display
     else
       slot_is_empty_reminder(input)
-      # If the space exists but is empty, the 'rm' method does not get called again.
     end
   end
 
@@ -76,7 +71,6 @@ class BlockBuilder
       arm[input1-1] = arm[input1-1].chomp(" X")
       arm[input2-1] <<" X"
       commands << ["mv", input1, input2]
-      display
     else
       slot_is_empty_reminder(input1)
     end
@@ -147,6 +141,7 @@ class BlockBuilder
       when "i" then instructions
       when "q" then puts "Program ended."; exit
     end
+    display
   end
 
   def check_input(input)
