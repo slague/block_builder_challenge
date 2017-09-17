@@ -2,7 +2,7 @@ require 'minitest/autorun'
 require_relative '../lib/block_builder'
 require 'minitest/pride'
 
-def puts(*args) end #silences the 'puts statements'
+def puts(*args) end #silences puts statements
 
 class BlockBuilderTest < Minitest::Test
 
@@ -27,8 +27,6 @@ class BlockBuilderTest < Minitest::Test
     blocker.add(2)
     assert_equal ["1:", "2: X X", "3:"], blocker.arm
   end
-
-
 
   def test_rm
     blocker = BlockBuilder.new(3)
@@ -61,5 +59,19 @@ class BlockBuilderTest < Minitest::Test
     assert_equal ["1:", "2: X", "3:"], blocker.arm
   end
 
+  def test_build_and_add
+    blocker = BlockBuilder.new(3)
+    blocker.build_and_add(4)
+    assert_equal ["1:", "2:", "3:", "4: X"], blocker.arm
+    blocker.build_and_add(5)
+    assert_equal ["1:", "2:", "3:", "4: X", "5: X"], blocker.arm
+  end
+
+  def test_build_and_mv
+    blocker = BlockBuilder.new(3)
+    blocker.add(2)
+    blocker.build_and_mv(2, 4)
+    assert_equal ["1:", "2:", "3:", "4: X"], blocker.arm
+  end
 
 end
