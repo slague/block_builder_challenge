@@ -62,7 +62,7 @@ becomes
 ```
 
 `replay [n]`
-Replays the last n commands. Only successfully executed commands will be replayed. For example, if a user tries to move a block from a location that does not have a block. This command was not successful and so not counted. Replays begin with the most recently executed command and work backwards.
+Replays the last n commands. Only successfully executed commands will be replayed. For example, if a user tries to move a block from a location that does not have a block. This command was not successful and so not counted. Replays begin with the most recently executed command and work backwards. If no number [n] is given, the last command entered is replayed.
 
 Example:
 `replay 2` Gives the last two commands and replays them.
@@ -78,7 +78,7 @@ becomes
 ```
 
 `undo [n]`
-Undo the last n commands. (NOTE: If a user enters `undo 2` and then follows with the command `undo 1`. The `undo 1` will effectively "undo" whatever the last action `undo 2` executed.)
+Undo the last n commands. If no number [n] is given, the last command entered is undone. (NOTE: If a user enters `undo 2` and then follows with the command `undo 1`. The `undo 1` will effectively "undo" whatever the last action `undo 2` executed.)
 
 Example:
 `undo 2` Gives the last two commands and undoes them.
@@ -91,6 +91,42 @@ becomes
 1: X X
 2:
 3:
+```
+
+`+add [slot]`
+Adds a block to the specified slot. If the spot does not exist, it resizes the arm and adds the block. This counts as one command. When it is replayed or undone, both the add and resize are replayed/undone together.
+
+Example:
+`+add 4` resizes the arm and adds a block.
+```
+1:
+2: X
+3:
+```
+becomes
+```
+1:
+2: X
+3:
+4: X
+```
+
+`+mv [slot1] [slot2]`
+Moves a block to the specified slot. If the spot does not exist, it resizes the arm and moves the block. This counts as one command. When it is replayed or undone, both the move and resize are replayed/undone together. Note: If there is not a block in [slot1] the arm will still be resized to create [slot2], however, no blocks will be moved.
+
+Example:
+`+mv 2, 4` resizes the arm and moves a block.
+```
+1:
+2: X
+3:
+```
+becomes
+```
+1:
+2:
+3:
+4: X
 ```
 
 `i` Displays this list of instructions.
@@ -106,5 +142,5 @@ becomes
 ### Testing
 
 This app uses minitest for testing. To run the tests:
-1. Comment out the line of code outside of the BlockBuilder class in lib/block_builder.rb (The last line `BlockBuilder.start`)
+1. Comment out the line of code outside of the BlockBuilder class in lib/block_builder.rb `BlockBuilder.start`
 2. Run `ruby test/block_builder_test.rb`
