@@ -12,8 +12,11 @@ class BlockBuilder
   end
 
   def instructions
-# I am assuming a user will first input the command followed by a number (or in the case of mv two numbers) and press enter. For i and q, no numbers follow. There must be a space between the command and number.
-    puts "Now that you have built the robotic arm, you can use the following commands to add, change, and remove blocks:\n
+    # I am assuming a user will first input the command followed by a number (or in the case of mv two numbers) and press enter.
+    # For i and q, no numbers follow.
+    # There must be a space between the command and number.
+    # The number may be within brackets or not.
+    puts "You can use the following commands to add, change, and remove blocks.\n
     size [n] - Adjusts the number of slots, resizing if necessary.
     add [slot] - Adds a block to the specified slot.
     mv [slot1] [slot2] - Moves a block from slot1 to slot2.
@@ -26,8 +29,8 @@ class BlockBuilder
   end
 
   def size(input)
-#For this method I'm assuming that when the arm is re-sized, blocks remain in place.
-#However, if an arm is resized to a smaller size, blocks in the truncated space(s) are lost.
+    #For this method I'm assuming that when the arm is re-sized, blocks remain in place.
+    #However, if an arm is resized to a smaller size, blocks in the truncated space(s) are lost.
     current_arm = arm.length
     if input <= current_arm
       arm.pop(current_arm - input)
@@ -41,7 +44,7 @@ class BlockBuilder
   end
 
   def add(input)
-    if arm[input-1]
+    if arm[input-1] && input !=0
       arm[input-1] << " X"
       commands << ["add", input]
       display
@@ -53,7 +56,7 @@ class BlockBuilder
   end
 
   def rm(input)
-    if arm[input-1].nil?
+    if arm[input-1].nil? || input == 0
       puts "The length of your arm is #{arm.length}. Select a number 1-#{arm.length}."
       rm(gets.strip.to_i)
       # Note: similar to the 'add' method, if a user inputs a space that does not exist, the method is called again until a space that exists on the arm is entered. If the space exists, but is empty see below.
@@ -81,8 +84,8 @@ class BlockBuilder
   end
 
   def replay(input)
-  #Note: I chose to only count successfully executed commands. For example if a user tries to move a block from a location that does not have a block. This command was not successful and so not counted.
-  #I am also assuming the replays occur in order starting with the most recently executed and working backwards.
+    #Note: I chose to only count successfully executed commands. For example if a user tries to move a block from a location that does not have a block. This command was not successful and so not counted.
+    #I am also assuming the replays occur in order starting with the most recently executed and working backwards.
     replays = commands.reverse.take(input)
     puts "The last #{input} commands were:"
     replays.each { |replay| puts "#{replay}"}
@@ -127,18 +130,23 @@ class BlockBuilder
   end
 
   def check_input(input)
-    condition1 = input.length >= 2 && %w(size add mv rm replay undo).include?(input[0])
+    condition1 = input.length >= 2 && %w(size add mv rm replay undo).include?(input[0]) && input[1].to_i > 0
     condition2 = input.length == 1 && %w(i q).include?(input[0])
 
     unless condition1 || condition2
-      puts "Invalid entry. Try again. Press i to see the list of commands again."
+      puts "Invalid entry. Try again. Press i to see the list of commands."
       run_program
     end
   end
 
+  def clean_input(input)
+    input[0] = input[0].downcase
+    input[1] = input[1].delete('[]') if input[1]
+  end
+
   def run_program
     input = gets.strip.split
-    input[0] = input[0].downcase
+    clean_input(input)
     check_input(input)
     execute_commands(input)
     run_program
@@ -148,7 +156,7 @@ class BlockBuilder
     puts "This is a controller program for a robotic arm that moves blocks stacked in a series of slots.\nTo begin, you will create your robotic arm. Enter a number to determine its size."
     num = gets.chomp.to_i
     if num == 0
-      puts "You must enter a number. Starting over."
+      puts "You must enter a number. Starting over..."
       sleep(1)
       start
     else
