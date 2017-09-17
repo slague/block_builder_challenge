@@ -10,7 +10,7 @@ The BlockBuilder is a command-line controller program for a robotic arm that tak
 Adjusts the number of slots, resizing if necessary. When the arm is re-sized, blocks remain in place. However, if an arm is resized to a smaller size, blocks in the truncated space(s) are lost.
 
 Example:
-`size 3` builds an arm with two slots
+`size 3` builds an arm with three slots
 ```
 1:
 2:
