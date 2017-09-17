@@ -12,10 +12,10 @@ class BlockBuilder
   end
 
   def instructions
-# I am assuming a user will first input the command followed by a number (or in the case of mv two numbers) and press enter.
-# For i and q, no numbers follow. 
-# There must be a space between the command and number.
-# The number may be within brackets or not.
+    # I am assuming a user will first input the command followed by a number (or in the case of mv two numbers) and press enter.
+    # For i and q, no numbers follow.
+    # There must be a space between the command and number.
+    # The number may be within brackets or not.
     puts "You can use the following commands to add, change, and remove blocks.\n
     size [n] - Adjusts the number of slots, resizing if necessary.
     add [slot] - Adds a block to the specified slot.
@@ -29,8 +29,8 @@ class BlockBuilder
   end
 
   def size(input)
-#For this method I'm assuming that when the arm is re-sized, blocks remain in place.
-#However, if an arm is resized to a smaller size, blocks in the truncated space(s) are lost.
+    #For this method I'm assuming that when the arm is re-sized, blocks remain in place.
+    #However, if an arm is resized to a smaller size, blocks in the truncated space(s) are lost.
     current_arm = arm.length
     if input <= current_arm
       arm.pop(current_arm - input)
@@ -51,7 +51,6 @@ class BlockBuilder
     else
       puts "The length of your arm is #{arm.length}. Select a number 1-#{arm.length}."
       add(gets.strip.to_i)
-      # require "pry"; binding.pry
       # Note: The choice I made here is if a user inputs an unuseable number, the method is called again until a useable number is entered.
     end
   end
@@ -85,8 +84,8 @@ class BlockBuilder
   end
 
   def replay(input)
-  #Note: I chose to only count successfully executed commands. For example if a user tries to move a block from a location that does not have a block. This command was not successful and so not counted.
-  #I am also assuming the replays occur in order starting with the most recently executed and working backwards.
+    #Note: I chose to only count successfully executed commands. For example if a user tries to move a block from a location that does not have a block. This command was not successful and so not counted.
+    #I am also assuming the replays occur in order starting with the most recently executed and working backwards.
     replays = commands.reverse.take(input)
     puts "The last #{input} commands were:"
     replays.each { |replay| puts "#{replay}"}
@@ -140,11 +139,14 @@ class BlockBuilder
     end
   end
 
-  def run_program
-    input = gets.strip.split
+  def clean_input(input)
     input[0] = input[0].downcase
     input[1] = input[1].delete('[]') if input[1]
-    # require "pry"; binding.pry
+  end
+
+  def run_program
+    input = gets.strip.split
+    clean_input(input)
     check_input(input)
     execute_commands(input)
     run_program
