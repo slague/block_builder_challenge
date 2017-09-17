@@ -12,8 +12,8 @@ The BlockBuilder is a command-line controller program for a robotic arm that tak
    Example:
    `size 3` builds an arm with two slots
    ```1:
-  2:
-  3:```
+   2:
+   3:```
 
 
  * `add [slot]`
@@ -22,10 +22,10 @@ The BlockBuilder is a command-line controller program for a robotic arm that tak
    Example:
    `add 2` adds a block (X) to the second slot.
    ```
-  1:
-  2: X
-  3:
-    ```
+   1:
+   2: X
+   3:
+   ```
 
  * `rm [slot]`
    Removes a block from the slot. Blocks are removed one at a time. Blocks can only be removed from slots that currently have a block(s).
