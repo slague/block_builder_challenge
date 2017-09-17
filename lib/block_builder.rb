@@ -45,7 +45,7 @@ class BlockBuilder
   end
 
   def build_and_add(input)
-    size(input)
+    size(input) if input > arm.length
     add(input)
     commands.pop
     commands[-1][0] = "+add"
