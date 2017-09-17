@@ -14,7 +14,7 @@ The BlockBuilder is a command-line controller program for a robotic arm that tak
 ### Testing
 
 This app uses minitest for testing. To run the tests:
-1. In lib/block_builder.rb, comment out `BlockBuilder.start` at the very bottom of the file. 
+1. In lib/block_builder.rb, comment out `BlockBuilder.start` at the very bottom of the file.
 2. Run `ruby test/block_builder_test.rb`
 
 ### Commands:
@@ -30,7 +30,7 @@ Example:
 3:
 ```
 `add [slot]`
-Adds a block to the specified slot. Blocks are added one at a time. Blocks can only be added to slots that exist. If the spot does not exist, the user will be asked to provide a different slot.
+Adds a block to the specified slot. Blocks are added one at a time. Blocks can only be added to slots that exist.
 
 Example:
 `add 2` adds a block (X) to the second slot.
@@ -125,7 +125,7 @@ becomes
 ```
 
 `+mv [slot1] [slot2]`
-Moves a block to the specified slot. If the spot does not exist, it resizes the arm and moves the block. This counts as one command. When it is replayed or undone, both the move and resize are replayed/undone together. Note: If there is not a block in [slot1] the arm will still be resized to create [slot2], however, no blocks will be moved.
+Moves a block from slot1 to slot2. If the slot2 does not exist, it resizes the arm and moves the block. (If both slots exist, it works the same as mv). This counts as one command. When it is replayed or undone, both the move and resize are replayed/undone together. Note: If there is not a block in [slot1] to move, the arm will not be resized to create [slot2].
 
 Example:
 `+mv 2, 4` resizes the arm and moves a block.

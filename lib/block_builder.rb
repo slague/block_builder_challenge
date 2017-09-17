@@ -43,8 +43,6 @@ class BlockBuilder
       display
     else
       size_reminder(arm)
-      add(gets.strip.delete('[]').to_i)
-      # If a user inputs a slot that does not exist number, the method is called again until a useable number is entered. **Only a number (with or without brackets) needs to be entered here!
     end
   end
 
@@ -85,18 +83,18 @@ class BlockBuilder
   end
 
   def build_and_mv(input1, input2)
-    size(input2)
-    if arm[input1-1].include?("X")
+    if arm[input1-1].include?("X") && input2 > arm.length
+      size(input2)
       mv(input1, input2)
       commands[-1], commands[-2] = commands[-2], commands[-1]
       commands[-2] << commands[-1][-1]
       commands.pop
       commands[-1][0] = "+mv"
     else
-      mv(input1, input2)
+      slot_is_empty_reminder(input1)
     end
-      # This is a method I added so that if a user wants to move a block to a slot that has not been created, they can do both in the same command.
-      #If there is not a block in [slot1] the arm will still be resized to create [slot2], however, no blocks will be moved. And a message will be given to the user. Because the resize is a successfully executed command it is save, but the move is not.
+      # This is a method I added so that if a user wants to move a block to a slot that has not been created, they can do both in the same command. If the slots already exist, it works the same as mv. (The arm is not resized smaller)
+      #If there is not a block in [slot1] the arm will not be resized and a message is given. I thought this made more logical sense then resizing the arm, but not moving and block. I went back and forth on this, but decided if the first part wasn't true then the second part should not occur.
   end
 
   def replay(input)
