@@ -11,11 +11,9 @@ The BlockBuilder is a command-line controller program for a robotic arm that tak
 
    Example:
    `size 3` builds an arm with two slots
-   ```
-  1:
+   ```1:
   2:
-  3:
-  ```
+  3:```
 
 
  * `add [slot]`
