@@ -55,7 +55,6 @@ class BlockBuilder
   def rm(input)
     if arm[input-1].nil? || input == 0
       size_reminder(arm)
-      rm(gets.strip.delete('[]').to_i)
     elsif arm[input-1].include?("X")
       arm[input-1] = arm[input-1].chomp(" X")
       commands << ["rm", input]
@@ -95,7 +94,8 @@ class BlockBuilder
     #I chose to only count successfully executed commands. For example, if a user tries to move a block from a location that does not have a block. This command was not successful and so not counted.
     #Replays occur in order starting with the most recently executed and working backwards.
     replays = commands.reverse.take(input)
-    last_commands_reminder(input)
+    last_commands_reminder(input) if input < commands.length
+    last_commands_reminder(commands.length) if input > commands.length
     replays.each { |replay| puts "#{replay}"}
     puts "I will replay them now."
     sleep(1)
@@ -104,12 +104,14 @@ class BlockBuilder
       execute_commands(replay)
     end
     # If a number is not entered with this command, the program assumes 1 and replays the last command
+    # If replay is entered with a number greater than the number of commands entered, all commands are replayed.
     # I am not adding "replay" to the commands array.  I have chosen to do this so that if a user selects replay and then replay again they do not get stuck in a loop.
   end
 
   def undo(input=1)
     undos = commands.reverse.take(input)
-    last_commands_reminder(input)
+    last_commands_reminder(input) if input < commands.length
+    last_commands_reminder(commands.length) if input > commands.length
     undos.each { |undo| puts "#{undo}"}
     puts "I will undo them now."
     sleep(1)
@@ -124,6 +126,7 @@ class BlockBuilder
         when "undo" then undo(undo[1])
       end
     # If a number is not entered with this command, the program assumes 1 and undoes the last command
+    # If undo is entered with a number greater than the number of commands entered, all commands are undone
     # I am not adding "undo" to the commands array.  This way, for example, if a user enters `undo 2` and then follows with the command `undo 1`. The `undo 1` will effectively "undo" whatever the last action `undo 2` executed.
     end
   end

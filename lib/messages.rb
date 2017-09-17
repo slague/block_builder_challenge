@@ -16,7 +16,7 @@ module Messages
   end
 
   def size_reminder(arm)
-    puts "The arm is only #{arm.length} spaces long.\nBlocks cannot be added to spaces that do not exist. Use +add to resize the arm and add blocks in one command."
+    puts "The arm is only #{arm.length} spaces long.\nBlocks cannot be added or removed from spaces that do not exist. Use size [n] to resize the arm."
   end
 
   def slot_is_empty_reminder(input)
