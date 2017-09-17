@@ -147,7 +147,7 @@ class BlockBuilder
       when "replay" then replay(arr[1].to_i)
       when "undo" then undo(arr[1].to_i)
       when "i" then instructions
-      when "q" then puts "Program eneded."; exit
+      when "q" then puts "Program ended."; exit
     end
   end
 

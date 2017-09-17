@@ -14,16 +14,16 @@ The BlockBuilder is a command-line controller program for a robotic arm that tak
 ### Testing
 
 This app uses minitest for testing. To run the tests:
-1. Comment out the line of code outside of the BlockBuilder class in lib/block_builder.rb `BlockBuilder.start`
+1. In lib/block_builder.rb, comment out `BlockBuilder.start` at the very bottom of the file. 
 2. Run `ruby test/block_builder_test.rb`
 
 ### Commands:
 
 `size [n]`
-Adjusts the number of slots, resizing if necessary. When the arm is re-sized, blocks remain in place. However, if an arm is resized to a smaller size, blocks in the truncated space(s) are lost.
+Adjusts the number of slots, resizing if necessary. When the arm is resized, blocks remain in place. However, if an arm is resized to a smaller size, blocks in the truncated space(s) are lost.
 
 Example:
-`size 3` builds an arm with three slots
+`size 3` rebuilds an arm with three slots which will look like this in the terminal:
 ```
 1:
 2:
